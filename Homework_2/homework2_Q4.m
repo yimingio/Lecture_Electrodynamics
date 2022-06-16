@@ -1,18 +1,22 @@
 clc; close; close all;
 electron=1.60217663*10^(-19);
-mu0=8.854*10^(-12);
-a0=5.29177*10^(-9);
+epsilon=8.854*10^(-12);
+a0=5.29177*10^(-11);
+m=electron/(4*pi*epsilon*a0^2);
 
-R=@(ra) ((electron/mu0)*(1/a0^2)*(ra^2+2*ra*a0+a0^2) ...
-    *exp(-2*ra/a0))/(4*pi*ra^2); %function of the psi100
+
+R=@(ra) (m/ra^2)*(2*ra^2+2*ra*a0+a0^2)*exp(-2*ra/a0); %function of the psi100
+
+
 E=[];
 n=10000;
-r=linspace(0,a0/3000,n);
+r=linspace(0,a0/10,n);
 for i=1:n
     E(i)=R(r(i));
 end
 
 plot(r,E,LineWidth=2,LineStyle="-",Color=[1 0 0]);
+
 
 xlim([-1*10^(-13) 17*10^(-13)]);
 ylim([-2*10^(17) 17*10^(17)]);
